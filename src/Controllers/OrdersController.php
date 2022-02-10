@@ -18,14 +18,14 @@ class OrdersController extends ApplicationController
      *
      * @return string
      */
-	public function index(): string
+    public function index(): string
     {
-		$orders = $this->orderModel->findAll();
+        $orders = $this->orderModel->findAll();
 
-		return $this->twig->render("Orders/index.html.twig", [
-			"orders" => $orders,
-		]);
-	}
+        return $this->twig->render("Orders/index.html.twig", [
+            "orders" => $orders,
+        ]);
+    }
 
     /**
      * @param int $id
@@ -37,18 +37,18 @@ class OrdersController extends ApplicationController
      *
      * @return string
      */
-	public function show(int $id): string
+    public function show(int $id): string
     {
-		$order = $this->orderModel->find($id);
+        $order = $this->orderModel->find($id);
 
-		if (!$order) {
-			throw new EntityException();
-		}
+        if (!$order) {
+            throw new EntityException();
+        }
 
-		return $this->twig->render("Orders/show.html.twig", [
-			"order" => $order,
-		]);
-	}
+        return $this->twig->render("Orders/show.html.twig", [
+            "order" => $order,
+        ]);
+    }
 
     /**
      * @throws LoaderError
@@ -57,14 +57,14 @@ class OrdersController extends ApplicationController
      *
      * @return string
      */
-	public function new(): string
+    public function new(): string
     {
-		$products = $this->productModel->findAll();
+        $products = $this->productModel->findAll();
 
-		return $this->twig->render("Orders/new.html.twig", [
-			"products" => $products,
-		]);
-	}
+        return $this->twig->render("Orders/new.html.twig", [
+            "products" => $products,
+        ]);
+    }
 
     /**
      * @throws RuntimeError
@@ -76,43 +76,43 @@ class OrdersController extends ApplicationController
      * @return string|void
      */
     public function create()
-	{
-		foreach (["product", "name", "phone"] as $var) {
-			if (!array_key_exists($var, $_POST)) {
-				throw new RequestException();
-			}
-		}
+    {
+        foreach (["product", "name", "phone"] as $var) {
+            if (!array_key_exists($var, $_POST)) {
+                throw new RequestException();
+            }
+        }
 
-		$name       = (string) preg_replace(RegexpTypeValidator::STRING, '', $_POST['name']);
-		$phone      = (string) preg_replace(RegexpTypeValidator::PHONE, '', $_POST['phone']);
-		$product_id = preg_replace(RegexpTypeValidator::INT, '', $_POST['product']);
+        $name       = (string) preg_replace(RegexpTypeValidator::STRING, '', $_POST['name']);
+        $phone      = (string) preg_replace(RegexpTypeValidator::PHONE, '', $_POST['phone']);
+        $product_id = preg_replace(RegexpTypeValidator::INT, '', $_POST['product']);
 
-		$product = $this->productModel->find($product_id);
+        $product = $this->productModel->find($product_id);
 
-		if (!$product) {
-			throw new EntityException();
-		}
+        if (!$product) {
+            throw new EntityException();
+        }
 
-		$response = $this->orderModel->create([
-			':name'       => $name,
-			':phone'      => $phone,
-			':product_id' => $product_id,
-		]);
+        $response = $this->orderModel->create([
+            ':name'       => $name,
+            ':phone'      => $phone,
+            ':product_id' => $product_id,
+        ]);
 
-		if ($response === 0) {
-			$products = $this->productModel->findAll();
+        if ($response === 0) {
+            $products = $this->productModel->findAll();
 
-			return $this->twig->render("Orders/new.html.twig", [
-				"products" => $products,
-				"errors"   => [
-					"order cannot be created"
-				],
-			]);
-		}
+            return $this->twig->render("Orders/new.html.twig", [
+                "products" => $products,
+                "errors"   => [
+                    "order cannot be created"
+                ],
+            ]);
+        }
 
-		header("Location: /orders");
-		die();
-	}
+        header("Location: /orders");
+        die();
+    }
 
     /**
      * @param int $id
@@ -124,20 +124,20 @@ class OrdersController extends ApplicationController
      *
      * @throws LoaderError
      */
-	public function edit(int $id): string
-	{
-		$order    = $this->orderModel->find($id);
-		$products = $this->productModel->findAll();
+    public function edit(int $id): string
+    {
+        $order    = $this->orderModel->find($id);
+        $products = $this->productModel->findAll();
 
-		if (!$order) {
-			throw new EntityException();
-		}
+        if (!$order) {
+            throw new EntityException();
+        }
 
-		return $this->twig->render("Orders/edit.html.twig", [
-			"order"    => $order,
-			"products" => $products,
-		]);
-	}
+        return $this->twig->render("Orders/edit.html.twig", [
+            "order"    => $order,
+            "products" => $products,
+        ]);
+    }
 
     /**
      * @param int $id
@@ -150,47 +150,47 @@ class OrdersController extends ApplicationController
      *
      * @return string|void
      */
-	public function update(int $id)
-	{
-		foreach (["product", "name", "phone"] as $var) {
-			if (!array_key_exists($var, $_POST)) {
-				throw new RequestException();
-			}
-		}
+    public function update(int $id)
+    {
+        foreach (["product", "name", "phone"] as $var) {
+            if (!array_key_exists($var, $_POST)) {
+                throw new RequestException();
+            }
+        }
 
         $name       = (string) preg_replace(RegexpTypeValidator::STRING, '', $_POST['name']);
         $phone      = (string) preg_replace(RegexpTypeValidator::PHONE, '', $_POST['phone']);
         $product_id = (int) preg_replace(RegexpTypeValidator::INT, '', $_POST['product']);
 
-		$product = $this->productModel->find($product_id);
+        $product = $this->productModel->find($product_id);
 
-		if (!$product) {
-			throw new EntityException();
-		}
+        if (!$product) {
+            throw new EntityException();
+        }
 
-		$response = $this->orderModel->update([
-			':name'       => $name,
-			':phone'      => $phone,
-			':product_id' => $product_id,
-			':id'         => $id,
-		]);
- 
-		if ($response === 0) {
-			$order    = $this->orderModel->find($id);
-			$products = $this->productModel->findAll();
+        $response = $this->orderModel->update([
+            ':name'       => $name,
+            ':phone'      => $phone,
+            ':product_id' => $product_id,
+            ':id'         => $id,
+        ]);
 
-			return $this->twig->render("Orders/edit.html.twig", [
-				"order"    => $order,
-				"products" => $products,
-				"errors"   => [
-					"order cannot be updated"
-				],
-			]);
-		}
+        if ($response === 0) {
+            $order    = $this->orderModel->find($id);
+            $products = $this->productModel->findAll();
 
-		header("Location: /orders");
-		die();
-	}
+            return $this->twig->render("Orders/edit.html.twig", [
+                "order"    => $order,
+                "products" => $products,
+                "errors"   => [
+                    "order cannot be updated"
+                ],
+            ]);
+        }
+
+        header("Location: /orders");
+        die();
+    }
 
     /**
      * @param int $id
@@ -199,17 +199,17 @@ class OrdersController extends ApplicationController
      *
      * @return void
      */
-	public function destroy(int $id)
-	{
-		$order = $this->orderModel->find($id);
+    public function destroy(int $id)
+    {
+        $order = $this->orderModel->find($id);
 
-		if (!$order) {
-			throw new EntityException();
-		}
+        if (!$order) {
+            throw new EntityException();
+        }
 
-		$this->orderModel->delete($id);
+        $this->orderModel->delete($id);
 
-		header("Location: /orders");
-		die();
-	}
+        header("Location: /orders");
+        die();
+    }
 }

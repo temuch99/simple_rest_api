@@ -15,8 +15,8 @@ class StaticsController extends ApplicationController
      *
      * @return string
      */
-	public function index(): string
-	{
-		return $this->twig->render("Statics/index.html.twig");
-	}
+    public function index(): string
+    {
+        return $this->twig->render("Statics/index.html.twig");
+    }
 }

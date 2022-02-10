@@ -12,26 +12,26 @@ use Twig\Environment;
  */
 abstract class ApplicationController
 {
-	/**
-	 * @var Environment
-	 */
-	protected $twig;
+    /**
+     * @var Environment
+     */
+    protected $twig;
 
-	/**
-	 * @var Order
-	 */
-	protected $orderModel;
+    /**
+     * @var Order
+     */
+    protected $orderModel;
 
-	/**
-	 * @var Product
-	 */
-	protected $productModel;
+    /**
+     * @var Product
+     */
+    protected $productModel;
 
-	public function __construct()
-	{
-		$this->orderModel   = new Order();
-		$this->productModel = new Product();
-		$loader             = new FilesystemLoader("src/Views");
-		$this->twig         = new Environment($loader);
-	}
+    public function __construct()
+    {
+        $this->orderModel   = new Order();
+        $this->productModel = new Product();
+        $loader             = new FilesystemLoader("src/Views");
+        $this->twig         = new Environment($loader);
+    }
 }

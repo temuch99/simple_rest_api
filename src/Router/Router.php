@@ -15,57 +15,57 @@ class Router
      *
      * @return string
      */
-	public static function execAction(string $method, string $uri): string
+    public static function execAction(string $method, string $uri): string
     {
-		$matches = [];
-		if (preg_match(RegexpPathValidator::NEW_RESOURCE_PATH, $uri, $matches)) {
-			if ($method === 'GET') {
-				$action = "new";
-			} else {
-				throw new NotFoundException();
-			}
-		} elseif (preg_match(RegexpPathValidator::EDIT_RESOURCE_PATH, $uri, $matches)) {
-			if ($method === 'GET') {
-				$action = "edit";
-			} else {
+        $matches = [];
+        if (preg_match(RegexpPathValidator::NEW_RESOURCE_PATH, $uri, $matches)) {
+            if ($method === 'GET') {
+                $action = "new";
+            } else {
                 throw new NotFoundException();
-			}
-		} elseif (preg_match(RegexpPathValidator::RESOURCE_PATH, $uri, $matches)) {
-			if ($method === 'GET') {
-				$action = "show";
-			} elseif ($method === 'POST') {
-				$action = 'update';
-			} elseif ($method === 'DELETE') {
-				$action = 'destroy';
-			} else {
+            }
+        } elseif (preg_match(RegexpPathValidator::EDIT_RESOURCE_PATH, $uri, $matches)) {
+            if ($method === 'GET') {
+                $action = "edit";
+            } else {
                 throw new NotFoundException();
-			}
-		} elseif (preg_match(RegexpPathValidator::RESOURCES_PATH, $uri, $matches)) {
-			if ($method === 'GET') {
-				$action = "index";
-			} elseif ($method === 'POST') {
-				$action = "create";
-			} else {
+            }
+        } elseif (preg_match(RegexpPathValidator::RESOURCE_PATH, $uri, $matches)) {
+            if ($method === 'GET') {
+                $action = "show";
+            } elseif ($method === 'POST') {
+                $action = 'update';
+            } elseif ($method === 'DELETE') {
+                $action = 'destroy';
+            } else {
                 throw new NotFoundException();
-			}
-		} elseif ($uri === "/") {
-			$matches[1] = "statics";
-			$action     = "index";
-		} else {
+            }
+        } elseif (preg_match(RegexpPathValidator::RESOURCES_PATH, $uri, $matches)) {
+            if ($method === 'GET') {
+                $action = "index";
+            } elseif ($method === 'POST') {
+                $action = "create";
+            } else {
+                throw new NotFoundException();
+            }
+        } elseif ($uri === "/") {
+            $matches[1] = "statics";
+            $action     = "index";
+        } else {
             throw new NotFoundException();
-		}
+        }
 
-		$resource = $matches[1];
-		$id       = $matches[2] ?? null;
+        $resource = $matches[1];
+        $id       = $matches[2] ?? null;
 
-		$controllerName = "App\\Controllers\\" . ucfirst($resource) . "Controller";
+        $controllerName = "App\\Controllers\\" . ucfirst($resource) . "Controller";
 
-		if (!class_exists($controllerName)) {
+        if (!class_exists($controllerName)) {
             throw new NotFoundException();
-		}
+        }
 
-		$controller = new $controllerName();
+        $controller = new $controllerName();
 
-		return call_user_func_array([$controller, $action], ($id === null ? [] : [$id]));
-	}
+        return call_user_func_array([$controller, $action], ($id === null ? [] : [$id]));
+    }
 }
