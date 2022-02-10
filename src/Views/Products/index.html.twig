@@ -1,0 +1,23 @@
+{% extends "application.html.twig" %}
+
+{% block body %}
+<h1>Все продукты</h1>
+<table class="table">
+	<thead>
+		<th>Название</th>
+		<th>Дата создания</th>
+	</thead>
+	<tbody>
+		{% for product in products %}
+		<tr>
+			<td>{{ product.title }}</td>
+			<td>{{ product.created_at|date('Y-m-d') }}</td>
+			<td><a href="/products/{{ product.id }}">Перейти</a></td>
+			<td><a href="/products/{{ product.id }}/edit">Редактировать</a></td>
+			<td><button onclick=removeProduct({{ product.id }})>Удалить</button></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<a href="/products/new">Создать продукт</a>
+{% endblock %}

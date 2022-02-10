@@ -1,0 +1,44 @@
+{% extends "application.html.twig" %}
+
+{% block body %}
+<h1>Изменить заказ</h1>
+<form method="POST" action="/orders/{{ order.id }}">
+	<div class="row">
+		<div class="col-md-6">
+			<label>Имя пользователя</label>
+		</div>
+		<div class="col-md-6">
+			<input type="text" name="name" value="{{ order.name }}">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<label>Номер телефона</label>
+		</div>
+		<div class="col-md-6">
+			<input type="tel" name="phone" value="{{ order.phone }}">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<label>Продукт</label>
+		</div>
+		<div class="col-md-6">
+			<select name="product">
+				{% for product in products %}
+					<option
+						value="{{ product.id }}"
+						{% if product.id == order.product_id %}
+							selected
+						{% endif %}
+					>
+						{{ product.title }}
+					</option>
+				{% endfor %}
+			</select>
+		</div>
+	</div>
+	<button type="submit">Обновить</button>
+</form>
+<a href="/orders">Вернуться ко всем заказам</a>
+{% endblock %}

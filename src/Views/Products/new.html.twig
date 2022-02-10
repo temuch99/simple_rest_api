@@ -1,0 +1,16 @@
+{% extends "application.html.twig" %}
+
+{% block body %}
+<h1>Создать продукт</h1>
+<ul>
+	{% for error in errors %}
+		<li>{{ error }}</li>
+	{% endfor %}
+</ul>
+<form method="POST" action="/products">
+	<label>Наименование</label>
+	<input type="text" name="title">
+	<button type="submit">Создать</button>
+</form>
+<a href="/products">Вернуться ко всем продуктам</a>
+{% endblock %}

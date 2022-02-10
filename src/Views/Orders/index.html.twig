@@ -1,0 +1,30 @@
+{% extends "application.html.twig" %}
+
+{% block body %}
+<h1>Все заказы</h1>
+<table class="table">
+	<thead>
+		<th>Имя пользователя</th>
+		<th>Номер телефона</th>
+		<th>Продукт</th>
+		<th>Дата создания</th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</thead>
+	<tbody>
+		{% for order in orders %}
+		<tr>
+			<td>{{ order.name }}</td>
+			<td>{{ order.phone }}</td>
+			<td>{{ order.product_title }}</td>
+			<td>{{ order.created_at|date('Y-m-d') }}</td>
+			<td><a href="/orders/{{ order.id }}">Перейти</a></td>
+			<td><a href="/orders/{{ order.id }}/edit">Редактировать</a></td>
+			<td><button onclick=removeOrder({{ order.id }})>Удалить</button></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<a href="/orders/new">Создать заказ</a>
+{% endblock %}

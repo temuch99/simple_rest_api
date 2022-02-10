@@ -1,0 +1,16 @@
+{% extends "application.html.twig" %}
+
+{% block body %}
+	<h1>Обновить продукт</h1>
+	<ul>
+		{% for error in errors %}
+			<li>{{ error }}</li>
+		{% endfor %}
+	</ul>
+	<form method="POST" action="/products/{{ product.id }}">
+		<label>Наименование</label>
+		<input type="text" name="title" value="{{ product.title }}">
+		<button type="submit">Обновить</button>
+	</form>
+	<a href="/products">Вернуться ко всем продуктам</a>
+{% endblock %}

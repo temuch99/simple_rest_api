@@ -1,0 +1,24 @@
+{% extends "application.html.twig" %}
+
+{% block body %}
+	<h1>Заказ</h1>
+	<table class="table">
+		<tr>
+			<td>Имя пользователя</td>
+			<td>{{ order.name }}</td>
+		</tr>
+		<tr>
+			<td>Номер телефона</td>
+			<td>{{ order.phone }}</td>
+		</tr>
+		<tr>
+			<td>Продукт</td>
+			<td>{{ order.product_title }}</td>
+		</tr>
+		<tr>
+			<td>Дата создания</td>
+			<td>{{ order.created_at }}</td>
+		</tr>
+	</table>
+	<a href="/orders">Вернуться ко всем заказам</a>
+{% endblock %}

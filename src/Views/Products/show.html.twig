@@ -1,0 +1,16 @@
+{% extends "application.html.twig" %}
+
+{% block body %}
+<h1>Продукт</h1>
+<table>
+	<tr>
+		<td>Название</td>
+		<td>{{ product.title }}</td>
+	</tr>
+	<tr>
+		<td>Дата создания</td>
+		<td>{{ product.created_at }}</td>
+	</tr>
+</table>
+<a href="/products">Вернуться ко всем продуктам</a>
+{% endblock %}
