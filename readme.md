@@ -2,7 +2,7 @@
 ## Запуск
 Сначала необходимо создать базу данных
 ```
-CREATE DATABASE db_name;
+CREATE DATABASE DBNAME;
 ```
 Затем в файле .env необходимо указать данные о подключении:
 <div style="display: flex; justify-content: center;">
@@ -10,6 +10,14 @@ CREATE DATABASE db_name;
 ![entities](doc/env.png "ENV")
 
 </div>
+
+После этого нужно запустить выполнение скрипта по созданию таблиц в базе
+
+```
+make m
+```
+
+На этом настройка заканчивается
 
 ## Описание
 
